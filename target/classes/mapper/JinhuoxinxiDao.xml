@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.JinhuoxinxiDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.numbered as numbered
+        ,a.name as name
+        ,a.pj_types as pjTypes
+        ,a.replenish as replenish
+        ,a.gy_types as gyTypes
+        ,a.notice_content as noticeContent
+        ,a.yg_types as ygTypes
+        ,a.create_time as createTime
+        ,a.maxmoney as maxmoney
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.JinhuoxinxiView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Jinhuoxinxi  a
+        <where>
+            <if test=" params.name != '' and params.name != null and params.name != 'null' ">
+                and a.name like CONCAT('%',#{params.name},'%')
+            </if>
+            <if test=" params.pjTypes != '' and params.pjTypes != null and params.pjTypes != 'null' ">
+                and a.pj_types = #{params.pjTypes}
+            </if>
+            <if test=" params.gyTypes != '' and params.gyTypes != null and params.gyTypes != 'null' ">
+                and a.gy_types = #{params.gyTypes}
+            </if>
+            <if test=" params.ygTypes != '' and params.ygTypes != null and params.ygTypes != 'null' ">
+                and a.yg_types = #{params.ygTypes}
+            </if>
+            <if test=" params.yh != '' and params.yh != null">
+                and a.yg_types = #{params.yh}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>

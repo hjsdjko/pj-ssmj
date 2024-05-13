@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.KehuxixniDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.khname as khname
+        ,a.sex_types as sexTypes
+        ,a.contact as contact
+        ,a.location as location
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.KehuxixniView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Kehuxixni  a
+        <where>
+            <if test=" params.khname != '' and params.khname != null and params.khname != 'null' ">
+                and a.khname like CONCAT('%',#{params.khname},'%')
+            </if>
+            <if test=" params.sexTypes != '' and params.sexTypes != null and params.sexTypes != 'null' ">
+                and a.sex_types = #{params.sexTypes}
+            </if>
+            <if test=" params.contact != '' and params.contact != null and params.contact != 'null' ">
+                and a.contact like CONCAT('%',#{params.contact},'%')
+            </if>
+            <if test=" params.location != '' and params.location != null and params.location != 'null' ">
+                and a.location like CONCAT('%',#{params.location},'%')
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>
